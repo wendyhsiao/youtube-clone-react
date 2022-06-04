@@ -1,8 +1,31 @@
+import React, { useState, useEffect } from 'react';
+import { apiHelper } from '../utils/apis';
 import SocialMedia from '../components/icons';
 import VideoCard from '../components/VideoCard';
 import VideoIframe from '../components/VideoIframe';
 
 const WatchPage = () => {
+  const [data, setData] = useState({
+    snippet: {
+      title: '',
+      channelTitle: '',
+    }
+  });
+
+  useEffect(() => {
+    async function fetchVideo() {
+      const queryParams = {
+        id: 'Zhx1n6uvgUE',
+        key: process.env.REACT_APP_YT_API_KEY,
+        part: 'snippet'
+      };
+      const queryUrl = new URLSearchParams(queryParams);
+      const {data} = await apiHelper.get(`videos?${queryUrl.toString()}`);
+      setData(data.items[0]);
+    };
+    fetchVideo();
+  }, []);
+
   return (
     <>
       <div className="bg-[#f3f3f3]">
@@ -28,7 +51,7 @@ const WatchPage = () => {
             </ul>
             <div className="px-[9px] pb-[9px] flex">
               <div className="text-xs">
-                <h2>米津玄師 - M八七 　Kenshi Yonezu - M87</h2>
+                <h2>{data.snippet.title}</h2>
                 <span>觀看次數：15,000,000次 · 1 個月前</span>
               </div>
               <div>
@@ -66,7 +89,7 @@ const WatchPage = () => {
                 <img alt="" src="https://yt3.ggpht.com/obIiHrgUtL93lzpHG_pOPzseJv9ZEwGcLauBcqw9G-HB30qjiOe7uiVrA87WOO_4yCh-aQKxhsg=s88-c-k-c0x00ffffff-no-nd-rj"/>
               </div>
               <div>
-                <h3>Kenshi Yonezu  米津玄師</h3>
+                <h3>{data.snippet.channelTitle}</h3>
                 <div className="text-xs">626萬 位訂閱者</div>
               </div>
             </div>
