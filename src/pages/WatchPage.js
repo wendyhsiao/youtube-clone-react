@@ -1,12 +1,19 @@
 import SocialMedia from '../components/icons';
 import VideoCard from '../components/VideoCard';
+import VideoIframe from '../components/VideoIframe';
 
 const WatchPage = () => {
   return (
     <>
       <div className="bg-[#f3f3f3]">
-        <div className="video h-[150px] bg-[#333]">影片</div>
-        <div className="intro text-left	">
+        <div className="fixed top-[48px] inset-x-0">
+          <div className="relative pb-[56.25%]">
+            <div className="absolute inset-0">
+              <VideoIframe />
+            </div>
+          </div>
+        </div>
+        <div className="intro text-left	mt-[56.25%]">
           <div>
             <ul className="flex px-[12px] text-xs">
               <li className="px-[4px] pt-[12px]">
