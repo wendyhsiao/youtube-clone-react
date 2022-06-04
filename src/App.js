@@ -10,7 +10,7 @@ function App() {
       <HashRouter>
         <Header/>
         <Routes>
-          <Route path="/" element={<WatchPage/>} />
+          <Route path="/watch" element={<WatchPage/>} />
         </Routes>
       </HashRouter>
     </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import { apiHelper } from '../utils/apis';
 import SocialMedia from '../components/icons';
 import VideoCard from '../components/VideoCard';
@@ -6,21 +7,25 @@ import VideoIframe from '../components/VideoIframe';
 
 const WatchPage = () => {
   const [data, setData] = useState({
+    id: '',
     snippet: {
       title: '',
       channelTitle: '',
     }
   });
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const id = params.get('v');
 
   useEffect(() => {
     async function fetchVideo() {
-      const queryParams = {
-        id: 'Zhx1n6uvgUE',
+      const searchParams = {
+        id,
         key: process.env.REACT_APP_YT_API_KEY,
         part: 'snippet'
       };
-      const queryUrl = new URLSearchParams(queryParams);
-      const {data} = await apiHelper.get(`videos?${queryUrl.toString()}`);
+      const searchURL = new URLSearchParams(searchParams);
+      const {data} = await apiHelper.get(`videos?${searchURL.toString()}`);
       setData(data.items[0]);
     };
     fetchVideo();
@@ -30,11 +35,7 @@ const WatchPage = () => {
     <>
       <div className="bg-[#f3f3f3]">
         <div className="fixed top-[48px] inset-x-0">
-          <div className="relative pb-[56.25%]">
-            <div className="absolute inset-0">
-              <VideoIframe />
-            </div>
-          </div>
+          <VideoIframe id={data.id} />
         </div>
         <div className="intro text-left	mt-[56.25%]">
           <div>
