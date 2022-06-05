@@ -11,6 +11,11 @@ const WatchPage = () => {
     snippet: {
       title: '',
       channelTitle: '',
+    },
+    statistics: {
+      viewCount: '0',
+      likeCount: '0',
+      commentCount: '0'
     }
   });
   const location = useLocation();
@@ -22,7 +27,7 @@ const WatchPage = () => {
       const searchParams = {
         id,
         key: process.env.REACT_APP_YT_API_KEY,
-        part: 'snippet'
+        part: 'snippet,statistics'
       };
       const searchURL = new URLSearchParams(searchParams);
       const {data} = await apiHelper.get(`videos?${searchURL.toString()}`);
@@ -30,6 +35,21 @@ const WatchPage = () => {
     };
     fetchVideo();
   }, []);
+
+  function commaFormat(str) {
+    return str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  function countFormat(str) {
+    if (str <= 4) {
+      str = str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    } else if (str <= 5) {
+      str = `${str.slice(0)}.${str.slice(1)}萬`;
+    } else {
+      str = `${str.slice(0, str.length - 4)}萬`;
+    };
+    return str;
+  };
 
   return (
     <>
@@ -53,7 +73,7 @@ const WatchPage = () => {
             <div className="px-[9px] pb-[9px] flex">
               <div className="text-xs">
                 <h2>{data.snippet.title}</h2>
-                <span>觀看次數：15,000,000次 · 1 個月前</span>
+                <span>觀看次數：{countFormat(data.statistics.viewCount)}次 · 1 個月前</span>
               </div>
               <div>
                 <SocialMedia.Down />
@@ -64,7 +84,7 @@ const WatchPage = () => {
             <li className="text-[14px] flex flex-col items-center grow">
               <SocialMedia.Like />
               {/* <SocialMedia.LikeFill /> */}
-              9.5萬
+              {countFormat(data.statistics.likeCount)}
             </li>
             <li className="text-[14px] flex flex-col items-center grow">
               <SocialMedia.Dislike />
@@ -97,7 +117,7 @@ const WatchPage = () => {
             <button className="px-[8px] py-[10px]">已訂閱</button>
           </div>
           <div className="flex justify-between p-[12px]">
-            <div className="text-[14px]">留言 5</div>
+            <div className="text-[14px]">留言 {commaFormat(data.statistics.commentCount)}</div>
             <SocialMedia.UpDown />
           </div>
 
