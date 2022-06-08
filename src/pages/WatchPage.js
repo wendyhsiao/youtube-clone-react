@@ -4,13 +4,16 @@ import { apiHelper } from '../utils/apis';
 import SocialMedia from '../components/icons';
 import VideoCard from '../components/VideoCard';
 import VideoIframe from '../components/VideoIframe';
+import VideoDescription from '../components/VideoDescription';
 
 const WatchPage = () => {
   const [data, setData] = useState({
     id: '',
     snippet: {
-      title: '',
+      publishedAt: '',
       channelTitle: '',
+      title: '',
+      description: ''
     },
     statistics: {
       viewCount: '0',
@@ -70,7 +73,7 @@ const WatchPage = () => {
                 <a>#シンウルトラマン</a>
               </li>
             </ul>
-            <div className="px-[9px] pb-[9px] flex">
+            <div className="px-[9px] pb-[9px] flex justify-between">
               <div className="text-xs">
                 <h2>{data.snippet.title}</h2>
                 <span>觀看次數：{countFormat(data.statistics.viewCount)}次 · 1 個月前</span>
@@ -120,7 +123,9 @@ const WatchPage = () => {
             <div className="text-[14px]">留言 {commaFormat(data.statistics.commentCount)}</div>
             <SocialMedia.UpDown />
           </div>
-
+        </div>
+        <div className="fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3]">
+          <VideoDescription snippet={data.snippet} statistics={data.statistics} />
         </div>
         {/* 即將播放 */}
         <div className="px-[12px]">
