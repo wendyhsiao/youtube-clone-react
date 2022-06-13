@@ -2,7 +2,7 @@ import SocialMedia from './icons';
 
 function Header() {
   return (
-    <div className="flex justify-between items-center">
+    <div className="sticky top-0 inset-x-0 flex justify-between items-center">
       <div className="w-[113px] h-[48px] px-[12px] py-[14px]">
         <SocialMedia.Logo className="w-full h-full"/>
       </div>
