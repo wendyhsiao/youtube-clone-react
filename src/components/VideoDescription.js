@@ -1,7 +1,9 @@
 import SocialMedia from './icons';
-import { commaFormat, countFormat }from '../utils/format.js'
+import { commaFormat, countFormat, fetchYear }from '../utils/format.js'
 
 function VideoDescription(props) {
+  const { snippet, statistics, setShowDescription } = props;
+  
   const descriptionFormat = (str) => {
     const regex = /(https|http):\/\/([\w.]+\/?)\S*(?=\s)/g;
     const urlList = new Set(str.match(regex));
@@ -25,27 +27,27 @@ function VideoDescription(props) {
       <div className="flex flex-col bg-slate-100 rounded-t-[12px] h-full">
         <div className="flex justify-between items-center p-[12px]">
           <div>說明</div>
-          <div><SocialMedia.Close/></div>
+          <div onClick={() => setShowDescription(false)}><SocialMedia.Close/></div>
         </div>
         <div className="p-[12px] overflow-y-scroll">
             <div className="flex flex-col">
-              <div>{props.snippet.title}</div>
+              <div>{snippet.title}</div>
               <div className="flex justify-around">
                 <div className="flex flex-col">
-                  <div>{countFormat(props.statistics.likeCount)}</div>
+                  <div>{countFormat(statistics.likeCount)}</div>
                   <span>喜歡次數</span>
                 </div>
                 <div className="flex flex-col">
-                  <div>{commaFormat(props.statistics.viewCount)}</div>
+                  <div>{commaFormat(statistics.viewCount)}</div>
                   <span>觀看次數</span>
                 </div>
                 <div className="flex flex-col">
-                  <div>{props.snippet.publishedAt}</div>
-                  <span>2022年</span>
+                  <div>{fetchYear(snippet.publishedAt, 'day')}</div>
+                  <span>{fetchYear(snippet.publishedAt, 'year')}</span>
                 </div>
               </div>
             </div>
-            <div dangerouslySetInnerHTML={descriptionFormat(props.snippet.description)}></div>
+            <div dangerouslySetInnerHTML={descriptionFormat(snippet.description)}></div>
         </div>
       </div>
     </div>

@@ -17,3 +17,9 @@ export const countFormat = function (str) {
 export const newline2br = (str) => {
   return str.replace(/(\r|\n|\r\n)/g, '<br/>');
 };
+// 日期轉換
+export const fetchYear = (str, type) => {
+  let date = str.slice(0, 10).split('-');
+  if (type === 'year') return `${date[0]}年`;
+  if (type === 'day') return `${Number(date[1])}月${Number(date[2])}日`;
+};

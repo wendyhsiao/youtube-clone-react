@@ -21,6 +21,8 @@ const WatchPage = () => {
       commentCount: '0'
     }
   });
+  const [isShowDescription, setShowDescription] = useState(false);
+
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const id = params.get('v');
@@ -73,7 +75,7 @@ const WatchPage = () => {
                 <a>#シンウルトラマン</a>
               </li>
             </ul>
-            <div className="px-[9px] pb-[9px] flex justify-between">
+            <div className="px-[9px] pb-[9px] flex justify-between" onClick={() => setShowDescription(true)}>
               <div className="text-xs">
                 <h2>{data.snippet.title}</h2>
                 <span>觀看次數：{countFormat(data.statistics.viewCount)}次 · 1 個月前</span>
@@ -124,8 +126,8 @@ const WatchPage = () => {
             <SocialMedia.UpDown />
           </div>
         </div>
-        <div className="fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3]">
-          <VideoDescription snippet={data.snippet} statistics={data.statistics} />
+        <div className={`fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3] ${isShowDescription ? "block" : "hidden"}`}>
+          <VideoDescription snippet={data.snippet} statistics={data.statistics} setShowDescription={setShowDescription}/>
         </div>
         {/* 即將播放 */}
         <div className="px-[12px]">
