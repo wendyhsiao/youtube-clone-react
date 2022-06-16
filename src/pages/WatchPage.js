@@ -84,19 +84,19 @@ const WatchPage = () => {
         <div className="intro text-left	mt-[56.25%]">
           <div>
             <ul className="flex px-[12px] text-xs">
-              <li className="px-[4px] pt-[12px]">
+              <li className="px-[4px] pt-[12px] pb-[4px] text-[#065fd4]">
                 <a>#米津玄師</a>
               </li>
-              <li className="px-[4px] pt-[12px]">
+              <li className="px-[4px] pt-[12px] pb-[4px] text-[#065fd4]">
                 <a>#KenshiYonezu</a>
               </li>
-              <li className="px-[4px] pt-[12px]">
+              <li className="px-[4px] pt-[12px] pb-[4px] text-[#065fd4]">
                 <a>#シンウルトラマン</a>
               </li>
             </ul>
             <div className="px-[9px] pb-[9px] flex justify-between" onClick={() => setShowDescription(true)}>
               <div className="text-xs">
-                <h2>{video.snippet.title}</h2>
+                <h2 className="pb-[4px]">{video.snippet.title}</h2>
                 <span>觀看次數：{countFormat(video.statistics.viewCount)}次 · 1 個月前</span>
               </div>
               <div>
@@ -104,30 +104,30 @@ const WatchPage = () => {
               </div>
             </div>
           </div>
-          <ul className="flex px-[12px]">
-            <li className="text-[14px] flex flex-col items-center grow">
+          <div className="flex px-[12px] pb-[12px]">
+            <button className="flex flex-col items-center grow">
               <SocialMedia.Like />
               {/* <SocialMedia.LikeFill /> */}
-              {countFormat(video.statistics.likeCount)}
-            </li>
-            <li className="text-[14px] flex flex-col items-center grow">
+              <div className="mt-[7px]">{countFormat(video.statistics.likeCount)}</div>
+            </button>
+            <button className="flex flex-col items-center grow">
               <SocialMedia.Dislike />
-              不喜歡
-            </li>
-            <li className="text-[14px] flex flex-col items-center grow">
+              <span className="mt-[7px]">不喜歡</span>
+            </button>
+            <button className="flex flex-col items-center grow">
               <SocialMedia.Share />
-              分享
-            </li>
-            {/* <li className="text-[14px]">剪輯片段</li> */}
-            <li className="text-[14px] flex flex-col items-center grow">
+              <span className="mt-[7px]">分享</span>
+            </button>
+            {/* <button className="text-[14px]">剪輯片段</button> */}
+            <button className="flex flex-col items-center grow">
               <SocialMedia.Save />
-              儲存
-            </li>
-            <li className="text-[14px] flex flex-col items-center grow">
+              <span className="mt-[7px]">儲存</span>
+            </button>
+            <button className="flex flex-col items-center grow">
               <SocialMedia.Report />
-              檢舉
-            </li>
-          </ul>
+              <span className="mt-[7px]">檢舉</span>
+            </button>
+          </div>
           <div className="flex justify-between p-[12px] border-y-[1px]">
             <div className="flex">
               <div className="w-[34px] h-[34px] mr-[12px] rounded-full overflow-hidden">
@@ -151,7 +151,7 @@ const WatchPage = () => {
         {/* 即將播放 */}
         <div className="px-[12px]">
           {upNextList.map(upNextVideo => (
-            <VideoCard upNextVideo={upNextVideo} />
+            <VideoCard upNextVideo={upNextVideo} key={upNextVideo.id.videoId}/>
           ))}
         </div>
       </div>
