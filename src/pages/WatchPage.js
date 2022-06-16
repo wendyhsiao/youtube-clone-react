@@ -128,7 +128,7 @@ const WatchPage = () => {
               <span className="mt-[7px]">檢舉</span>
             </button>
           </div>
-          <div className="flex justify-between p-[12px] border-y-[1px]">
+          <div className="flex justify-between p-[12px] border-y-[1px] border-black/10">
             <div className="flex">
               <div className="w-[34px] h-[34px] mr-[12px] rounded-full overflow-hidden">
                 <img alt="" src="https://yt3.ggpht.com/obIiHrgUtL93lzpHG_pOPzseJv9ZEwGcLauBcqw9G-HB30qjiOe7uiVrA87WOO_4yCh-aQKxhsg=s88-c-k-c0x00ffffff-no-nd-rj"/>
@@ -140,9 +140,12 @@ const WatchPage = () => {
             </div>
             <button className="px-[8px] py-[10px]">已訂閱</button>
           </div>
-          <div className="flex justify-between p-[12px]">
-            <div className="text-[14px]">留言 {commaFormat(video.statistics.commentCount)}</div>
-            <SocialMedia.UpDown />
+          <div className="flex justify-between items-center p-[12px] border-b border-black/10">
+            <div className="text-[14px] leading-[17px]">
+              <strong>留言 </strong>
+              • {commaFormat(video.statistics.commentCount)} 則
+            </div>
+            <div className="w-[16px]"><SocialMedia.UpDown className="w-full"/></div>
           </div>
         </div>
         <div className={`fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3] ${isShowDescription ? "block" : "hidden"}`}>
@@ -150,6 +153,7 @@ const WatchPage = () => {
         </div>
         {/* 即將播放 */}
         <div className="px-[12px]">
+          <h3 className="py-[12px]">即將播放</h3>
           {upNextList.map(upNextVideo => (
             <VideoCard upNextVideo={upNextVideo} key={upNextVideo.id.videoId}/>
           ))}

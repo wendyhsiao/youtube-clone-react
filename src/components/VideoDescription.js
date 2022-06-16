@@ -25,29 +25,29 @@ function VideoDescription(props) {
   return (
     <div className="bg-black h-full">
       <div className="flex flex-col bg-slate-100 rounded-t-[12px] h-full">
-        <div className="flex justify-between items-center p-[12px]">
+        <div className="flex justify-between items-center p-[12px] text-sm leading-[14px] border-b border-black/10">
           <div>說明</div>
-          <div onClick={() => setShowDescription(false)}><SocialMedia.Close/></div>
+          <div className="p-[12px]" onClick={() => setShowDescription(false)}><SocialMedia.Close/></div>
         </div>
         <div className="p-[12px] overflow-y-scroll">
-            <div className="flex flex-col">
-              <div>{snippet.title}</div>
-              <div className="flex justify-around">
-                <div className="flex flex-col">
-                  <div>{countFormat(statistics.likeCount)}</div>
+            <div className="flex flex-col border-b border-black/10">
+              <div className="text-sm leading-[14px] py-[4px]">{snippet.title}</div>
+              <div className="flex justify-around py-[8px]">
+                <div className="flex flex-col items-center">
+                  <div className="text-[18px] leading-[26px] font-bold">{countFormat(statistics.likeCount)}</div>
                   <span>喜歡次數</span>
                 </div>
-                <div className="flex flex-col">
-                  <div>{commaFormat(statistics.viewCount)}</div>
+                <div className="flex flex-col items-center">
+                  <div className="text-[18px] leading-[26px] font-bold">{commaFormat(statistics.viewCount)}</div>
                   <span>觀看次數</span>
                 </div>
-                <div className="flex flex-col">
-                  <div>{fetchYear(snippet.publishedAt, 'day')}</div>
+                <div className="flex flex-col items-center">
+                  <div className="text-[18px] leading-[26px] font-bold">{fetchYear(snippet.publishedAt, 'day')}</div>
                   <span>{fetchYear(snippet.publishedAt, 'year')}</span>
                 </div>
               </div>
             </div>
-            <div dangerouslySetInnerHTML={descriptionFormat(snippet.description)}></div>
+            <div className="pt-[12px] pb-[32px] whitespace-pre-wrap break-words" dangerouslySetInnerHTML={descriptionFormat(snippet.description)}></div>
         </div>
       </div>
     </div>
