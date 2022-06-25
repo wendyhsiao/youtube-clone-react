@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocation } from "react-router-dom";
 import { apiHelper } from '../utils/apis';
 import SocialMedia from '../components/icons';
@@ -22,12 +22,11 @@ const WatchPage = () => {
     }
   });
   const [isShowDescription, setShowDescription] = useState(false);
-  const [upNextList, setupNextList] = useState([]);
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const id = params.get('v');
-
+  
   useEffect(() => {
     async function fetchVideo() {
       const searchParams = {
@@ -58,8 +57,12 @@ const WatchPage = () => {
   };
 
   // VideoCard
-  useEffect(() => {
-    async function fetchUpNext() {
+  const [upNextList, setUpNextList] = useState([]);
+  const [nextPageToken, setNextPageToken] = useState('');
+  const nextPageTokenRef = useRef(nextPageToken);
+
+  const fetchUpNext = useCallback(() => {
+    const fetchingUpNext = async () => {
       const searchParams = {
         part: 'snippet',
         type: 'video',
@@ -67,12 +70,53 @@ const WatchPage = () => {
         maxResults: 20,
         key: process.env.REACT_APP_YT_API_KEY,
       };
+
+      if (nextPageTokenRef.current) {
+        searchParams['pageToken'] = nextPageTokenRef.current;
+      };
+      
       const searchURL = new URLSearchParams(searchParams);
       const {data} = await apiHelper.get(`search?${searchURL.toString()}`);
       const items = data.items.filter(item => item.snippet);
-      setupNextList(items);
+      
+      setUpNextList(prevState => [
+          ...prevState,
+          ...items
+      ]);
+
+      setNextPageToken(data.nextPageToken);
+      nextPageTokenRef.current = data.nextPageToken;
     };
+    fetchingUpNext();
+  }, [nextPageToken]);
+
+  useEffect(() => {
     fetchUpNext();
+  }, []);
+
+  function debounce(fun, delay) {
+    let timer = null;
+    return function() {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(fun, delay);
+    };
+  };
+
+  useEffect(() => {
+    function loadMore () {
+      const scrollHeight = document.body.scrollHeight;
+      const clientHeight  = document.documentElement.clientHeight; //瀏覽器高度
+      const scrollTop = document.documentElement.scrollTop;
+      const distance = 50;
+
+      if (
+        (scrollTop + clientHeight) >= (scrollHeight - distance) &&
+        nextPageTokenRef.current !== undefined
+      ) fetchUpNext();
+    }
+    
+    window.addEventListener('scroll', debounce(loadMore, 500));
+    return () => window.removeEventListener('scroll', debounce(loadMore, 500));
   }, []);
 
   return (
@@ -154,8 +198,9 @@ const WatchPage = () => {
         {/* 即將播放 */}
         <div className="px-[12px]">
           <h3 className="py-[12px]">即將播放</h3>
-          {upNextList.map(upNextVideo => (
-            <VideoCard upNextVideo={upNextVideo} key={upNextVideo.id.videoId}/>
+          {upNextList.map((upNextVideo, index) => (
+            <VideoCard upNextVideo={upNextVideo} key={index}/> 
+            //key={upNextVideo.id.videoId}
           ))}
         </div>
       </div>
