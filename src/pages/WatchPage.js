@@ -5,6 +5,7 @@ import SocialMedia from '../components/icons';
 import VideoCard from '../components/VideoCard';
 import VideoIframe from '../components/VideoIframe';
 import VideoDescription from '../components/VideoDescription';
+import VideoComments from '../components/VideoComments';
 
 const WatchPage = () => {
   const [video, setVideo] = useState({
@@ -21,7 +22,7 @@ const WatchPage = () => {
       commentCount: '0'
     }
   });
-  const [isShowDescription, setShowDescription] = useState(false);
+  const [showActionSheets, setShowActionSheets] = useState('');
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -138,7 +139,7 @@ const WatchPage = () => {
                 <a>#シンウルトラマン</a>
               </li>
             </ul>
-            <div className="px-[9px] pb-[9px] flex justify-between" onClick={() => setShowDescription(true)}>
+            <div className="px-[9px] pb-[9px] flex justify-between" onClick={() => setShowActionSheets('description')}>
               <div className="text-xs">
                 <h2 className="pb-[4px]">{video.snippet.title}</h2>
                 <span>觀看次數：{countFormat(video.statistics.viewCount)}次 · 1 個月前</span>
@@ -184,7 +185,7 @@ const WatchPage = () => {
             </div>
             <button className="px-[8px] py-[10px]">已訂閱</button>
           </div>
-          <div className="flex justify-between items-center p-[12px] border-b border-black/10">
+          <div className="flex justify-between items-center p-[12px] border-b border-black/10" onClick={() => setShowActionSheets('comment')}>
             <div className="text-[14px] leading-[17px]">
               <strong>留言 </strong>
               • {commaFormat(video.statistics.commentCount)} 則
@@ -192,8 +193,11 @@ const WatchPage = () => {
             <div className="w-[16px]"><SocialMedia.UpDown className="w-full"/></div>
           </div>
         </div>
-        <div className={`fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3] ${isShowDescription ? "block" : "hidden"}`}>
-          <VideoDescription snippet={video.snippet} statistics={video.statistics} setShowDescription={setShowDescription}/>
+        <div className={`fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3] ${showActionSheets ? "block" : "hidden"}`}>
+          {showActionSheets === 'description'
+            ? <VideoDescription snippet={video.snippet} statistics={video.statistics} setShowActionSheets={setShowActionSheets}/>
+            : <VideoComments setShowActionSheets={setShowActionSheets} />
+          }
         </div>
         {/* 即將播放 */}
         <div className="px-[12px]">
