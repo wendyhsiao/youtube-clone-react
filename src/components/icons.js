@@ -10,6 +10,7 @@ import { ReactComponent as UpDown } from '../assets/icons/updown.svg';
 import { ReactComponent as More } from '../assets/icons/more.svg';
 import { ReactComponent as Search } from '../assets/icons/search.svg';
 import { ReactComponent as Close } from '../assets/icons/close.svg';
+import { ReactComponent as Comment } from '../assets/icons/comment.svg';
 
 export default {
   Logo,
@@ -23,6 +24,7 @@ export default {
   UpDown,
   More,
   Search,
-  Close
+  Close,
+  Comment
 };
 
