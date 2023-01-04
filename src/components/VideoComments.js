@@ -1,9 +1,40 @@
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import SocialMedia from '../components/icons';
 import VideoActionSheets from './VideoActionSheets';
+// day.js 組件
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/zh-tw';
+
+dayjs.locale('zh-tw');
+dayjs.extend(relativeTime)
 
 function VideoComments(props) {
-  const { commentList, setShowActionSheets } = props;
+  const { commentList, showActionSheets, setShowActionSheets, fetchComments } = props;
 
+  function debounce(fun, delay) {
+    let timer = null;
+    return function() {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(fun, delay);
+    };
+  };
+
+  useEffect(() => {
+    function loadMore () {
+      const scrollHeight = document.getElementById('js-box').scrollHeight;
+      const clientHeight  = document.getElementById('js-box').clientHeight;
+      const scrollTop = document.getElementById('js-box').scrollTop;
+      const distance = 50;
+      if (
+        (scrollTop + clientHeight) >= (scrollHeight - distance) 
+      ) fetchComments();
+    }
+    
+    document.getElementById('js-box').addEventListener('scroll', debounce(loadMore, 500));
+    return () => document.getElementById('js-box').removeEventListener('scroll', debounce(loadMore, 500));
+  }, []);
+  
   function Comment({comment}) {
     const { 
       authorProfileImageUrl, authorDisplayName, publishedAt, textDisplay, likeCount
@@ -17,7 +48,7 @@ function VideoComments(props) {
         <div className="grow px-[12px]">
           <div className="flex justify-between">
             <div>{authorDisplayName}</div>
-            <div>{publishedAt}</div>
+            <div>{dayjs(publishedAt).fromNow()}</div>
           </div>
           <p className="my-[4px]" dangerouslySetInnerHTML={{__html:textDisplay}}></p>
           <div className="flex">
@@ -43,9 +74,11 @@ function VideoComments(props) {
 
   return (
     <VideoActionSheets title={'留言'} setShowActionSheets={setShowActionSheets}>
-      {commentList.map((comment, index) => (
-        <Comment comment={comment} key={index}/>
-      ))}
+      {showActionSheets === 'comment' && 
+        commentList.map((comment, index) => (
+          <Comment comment={comment} key={index}/>
+        ))
+      }
     </VideoActionSheets>
   )
 }

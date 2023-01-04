@@ -122,6 +122,8 @@ const WatchPage = () => {
 
   // comments
   const [commentList, setCommentList] = useState([]); 
+  const [commentNextPageToken, setCommentNextPageToken] = useState('');
+  const commentNextPageTokenRef = useRef(commentNextPageToken);
   const fetchComments = useCallback(() => {
     const fetchingComments = async () => {
       const searchParams = {
@@ -132,9 +134,18 @@ const WatchPage = () => {
         key: process.env.REACT_APP_YT_API_KEY,
       };
     
+      if (commentNextPageTokenRef.current) {
+        searchParams['pageToken'] = commentNextPageTokenRef.current;
+      };
+
       const searchURL = new URLSearchParams(searchParams);
       const {data} = await apiHelper.get(`commentThreads?${searchURL.toString()}`);
-      setCommentList(data.items);
+      setCommentList(prevState => [
+        ...prevState,
+        ...data.items
+      ]);
+      setCommentNextPageToken(data.nextPageToken);
+      commentNextPageTokenRef.current = data.nextPageToken;
     };
     fetchingComments();
   });
@@ -219,7 +230,7 @@ const WatchPage = () => {
         <div className={`fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3] ${showActionSheets ? "block" : "hidden"}`}>
           {showActionSheets === 'description'
             ? <VideoDescription snippet={video.snippet} statistics={video.statistics} setShowActionSheets={setShowActionSheets}/>
-            : <VideoComments commentList={commentList} setShowActionSheets={setShowActionSheets} />
+            : <VideoComments fetchComments={fetchComments} commentList={commentList} showActionSheets={showActionSheets} setShowActionSheets={setShowActionSheets} />
           }
         </div>
         {/* 即將播放 */}

@@ -4,7 +4,7 @@ function VideoCard({upNextVideo}) {
   return (
     <div>
       <div className="video relative pb-[56.25%] overflow-hidden">
-        <img className="absolute top-2/4 -translate-y-2/4 bg-[333]" src={upNextVideo.snippet.thumbnails.high.url}/>
+        <img className="absolute top-2/4 -translate-y-2/4 w-full bg-[333]" src={upNextVideo.snippet.thumbnails.high.url}/>
       </div>
       <div className="flex pt-[12px] pb-[24px]">
         <div className="w-[40px] h-[40px] mr-[12px] rounded-full overflow-hidden shrink-0">

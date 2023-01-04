@@ -10,7 +10,7 @@ function VideoActionSheets(props) {
           <div>{title}</div>
           <div className="p-[12px]" onClick={() => setShowActionSheets('')}><SocialMedia.Close/></div>
         </div>
-        <div className="p-[12px] overflow-y-scroll">
+        <div id="js-box" className="p-[12px] overflow-y-scroll">
           {children}
         </div>
       </div>
