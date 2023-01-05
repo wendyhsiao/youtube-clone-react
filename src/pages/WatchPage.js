@@ -7,6 +7,15 @@ import VideoIframe from '../components/VideoIframe';
 import VideoDescription from '../components/VideoDescription';
 import VideoComments from '../components/VideoComments';
 
+
+// day.js 組件
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/zh-tw';
+
+dayjs.locale('zh-tw');
+dayjs.extend(relativeTime);
+
 const WatchPage = () => {
   const [video, setVideo] = useState({
     id: '',
@@ -156,11 +165,11 @@ const WatchPage = () => {
 
   return (
     <>
-      <div className="bg-[#f3f3f3]">
-        <div className="fixed top-[48px] inset-x-0 z-[2]">
-          <VideoIframe id={video.id} />
-        </div>
-        <div className="intro text-left	mt-[56.25%]">
+      <div className="mx-auto max-w-[990px] bg-[#f3f3f3] md:flex">
+        <div className="intro text-left	mt-[56.25%] flex-1 md:mt-0">
+          <div className="fixed top-[48px] inset-x-0 z-[2] md:static">
+            <VideoIframe id={video.id} />
+          </div>
           <div>
             <ul className="flex px-[12px] text-xs">
               <li className="px-[4px] pt-[12px] pb-[4px] text-[#065fd4]">
@@ -176,7 +185,7 @@ const WatchPage = () => {
             <div className="px-[9px] pb-[9px] flex justify-between" onClick={() => setShowActionSheets('description')}>
               <div className="text-xs">
                 <h2 className="pb-[4px]">{video.snippet.title}</h2>
-                <span>觀看次數：{countFormat(video.statistics.viewCount)}次 · 1 個月前</span>
+                <span>觀看次數：{countFormat(video.statistics.viewCount)}次 · {dayjs(video.snippet.publishedAt).fromNow()}</span>
               </div>
               <div>
                 <SocialMedia.Down />
@@ -234,7 +243,7 @@ const WatchPage = () => {
           }
         </div>
         {/* 即將播放 */}
-        <div className="px-[12px]">
+        <div className="px-[12px] md:w-2/5 md:max-w-[400px]">
           <h3 className="py-[12px]">即將播放</h3>
           {upNextList.map((upNextVideo, index) => (
             <VideoCard upNextVideo={upNextVideo} key={index}/> 
