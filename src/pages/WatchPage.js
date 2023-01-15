@@ -166,7 +166,7 @@ const WatchPage = () => {
 
   return (
     <>
-      <div className="mx-auto max-w-[990px] bg-[#f3f3f3] md:flex md:bg-[#fff]">
+      <div className="mx-auto bg-[#fff] md:max-w-[90%] md:flex">
         <div className="intro text-left	mt-[56.25%] flex-1 md:mt-0">
           <div className="fixed top-[48px] inset-x-0 z-[2] md:static">
             <VideoIframe id={video.id} />
@@ -183,51 +183,58 @@ const WatchPage = () => {
                 <a>#シンウルトラマン</a>
               </li>
             </ul>
-            <div className="px-[9px] pb-[9px] flex justify-between" onClick={() => setShowActionSheets('description')}>
+            <div className="px-[12px] pb-[9px] flex justify-between md:hidden" onClick={() => setShowActionSheets('description')}>
               <div className="text-xs">
                 <h2 className="pb-[4px]">{video.snippet.title}</h2>
                 <span>觀看次數：{countFormat(video.statistics.viewCount)}次 · {dayjs(video.snippet.publishedAt).fromNow()}</span>
+                <span className="ml-2">...更多內容</span>
               </div>
-              <div>
-                <SocialMedia.Down />
+            </div>
+            <div className="px-[12px] pb-[9px] hidden md:flex md:justify-between">
+              <div className="text-xs">
+                <h2 className="pb-[4px]">{video.snippet.title}</h2>
               </div>
             </div>
           </div>
-          <div className="flex px-[12px] pb-[12px]">
-            <button className="flex flex-col items-center grow">
-              <SocialMedia.Like />
-              {/* <SocialMedia.LikeFill /> */}
-              <div className="mt-[7px]">{countFormat(video.statistics.likeCount)}</div>
-            </button>
-            <button className="flex flex-col items-center grow">
-              <SocialMedia.Dislike />
-              <span className="mt-[7px]">不喜歡</span>
-            </button>
-            <button className="flex flex-col items-center grow">
-              <SocialMedia.Share />
-              <span className="mt-[7px]">分享</span>
-            </button>
-            {/* <button className="text-[14px]">剪輯片段</button> */}
-            <button className="flex flex-col items-center grow">
-              <SocialMedia.Save />
-              <span className="mt-[7px]">儲存</span>
-            </button>
-            <button className="flex flex-col items-center grow">
-              <SocialMedia.Report />
-              <span className="mt-[7px]">檢舉</span>
-            </button>
-          </div>
-          <div className="flex justify-between p-[12px] border-y-[1px] border-black/10">
-            <div className="flex">
-              <div className="w-[34px] h-[34px] mr-[12px] rounded-full overflow-hidden">
-                <img alt="" src="https://yt3.ggpht.com/rGwF3epSxFQZcTNfViuBgXeH7opUXf72ZBuAn50W-40oxe1ebvZ-2X3J5SeO0oqZq7vqVOrzaQ=s88-c-k-c0x00ffffff-no-nd-rj"/>
+          <div className="px-[12px] border-b-[1px] border-black/10 md:border-b-0 lg:flex lg:justify-between">
+            <div className="flex justify-between mb-[9px]">
+              <div className="flex">
+                <div className="w-[34px] h-[34px] mr-[12px] rounded-full overflow-hidden">
+                  <img alt="" src="https://yt3.ggpht.com/rGwF3epSxFQZcTNfViuBgXeH7opUXf72ZBuAn50W-40oxe1ebvZ-2X3J5SeO0oqZq7vqVOrzaQ=s88-c-k-c0x00ffffff-no-nd-rj"/>
+                </div>
+                <div>
+                  <h3>{video.snippet.channelTitle}</h3>
+                  <span className="text-xs">626萬 位訂閱者</span>
+                </div>
               </div>
-              <div>
-                <h3>{video.snippet.channelTitle}</h3>
-                <div className="text-xs">626萬 位訂閱者</div>
+              <button className="px-[16px] h-9 rounded-[18px]	bg-[#f2f2f2]">已訂閱</button>
+            </div>
+            <div>
+              <div className="flex pb-[12px]">
+                <div className="flex mr-2 px-[16px] h-9 rounded-[18px] bg-[#f2f2f2]">
+                  <button className="after:content-['|'] after:mx-2">
+                    <SocialMedia.Like className="inline-block"/><span>36</span>
+                  </button> 
+                  <button><SocialMedia.Dislike className="inline-block"/><span></span></button>
+                </div>
+                <button className="mr-2 px-[16px] h-9 rounded-[18px]	bg-[#f2f2f2]">
+                  <SocialMedia.Share className="inline-block" />
+                  <span className="align-middle	">分享</span>
+                </button>
+                <button className="mr-2 px-[16px] h-9 rounded-[18px]	bg-[#f2f2f2]">
+                  <SocialMedia.Save className="inline-block"/>
+                  <span className="align-middle	">儲存</span>
+                </button>
+                <button className="px-[16px] h-9 rounded-[18px]	bg-[#f2f2f2]">
+                  <SocialMedia.Report className="inline-block"/>
+                  <span className="align-middle	">檢舉</span>
+                </button>
               </div>
             </div>
-            <button className="px-[8px] py-[10px]">已訂閱</button>
+          </div>
+          <div className="p-[12px] bg-[#f2f2f2] rounded-[12px] h-[104px] hidden md:flex md:flex-col md:justify-between md:items-start">
+            <span>觀看次數：{countFormat(video.statistics.viewCount)}次 · {dayjs(video.snippet.publishedAt).fromNow()}</span>
+            <button>顯示完整資訊</button>
           </div>
           <div className="flex justify-between items-center p-[12px] border-b border-black/10 md:hidden" onClick={() => setShowActionSheets('comment')}>
             <div className="text-[14px] leading-[17px]">
