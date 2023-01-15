@@ -6,6 +6,7 @@ import VideoCard from '../components/VideoCard';
 import VideoIframe from '../components/VideoIframe';
 import VideoDescription from '../components/VideoDescription';
 import VideoComments from '../components/VideoComments';
+import CommentChild from '../components/CommentChild';
 
 
 // day.js 組件
@@ -165,7 +166,7 @@ const WatchPage = () => {
 
   return (
     <>
-      <div className="mx-auto max-w-[990px] bg-[#f3f3f3] md:flex">
+      <div className="mx-auto max-w-[990px] bg-[#f3f3f3] md:flex md:bg-[#fff]">
         <div className="intro text-left	mt-[56.25%] flex-1 md:mt-0">
           <div className="fixed top-[48px] inset-x-0 z-[2] md:static">
             <VideoIframe id={video.id} />
@@ -219,7 +220,7 @@ const WatchPage = () => {
           <div className="flex justify-between p-[12px] border-y-[1px] border-black/10">
             <div className="flex">
               <div className="w-[34px] h-[34px] mr-[12px] rounded-full overflow-hidden">
-                <img alt="" src="https://yt3.ggpht.com/obIiHrgUtL93lzpHG_pOPzseJv9ZEwGcLauBcqw9G-HB30qjiOe7uiVrA87WOO_4yCh-aQKxhsg=s88-c-k-c0x00ffffff-no-nd-rj"/>
+                <img alt="" src="https://yt3.ggpht.com/rGwF3epSxFQZcTNfViuBgXeH7opUXf72ZBuAn50W-40oxe1ebvZ-2X3J5SeO0oqZq7vqVOrzaQ=s88-c-k-c0x00ffffff-no-nd-rj"/>
               </div>
               <div>
                 <h3>{video.snippet.channelTitle}</h3>
@@ -228,12 +229,20 @@ const WatchPage = () => {
             </div>
             <button className="px-[8px] py-[10px]">已訂閱</button>
           </div>
-          <div className="flex justify-between items-center p-[12px] border-b border-black/10" onClick={() => setShowActionSheets('comment')}>
+          <div className="flex justify-between items-center p-[12px] border-b border-black/10 md:hidden" onClick={() => setShowActionSheets('comment')}>
             <div className="text-[14px] leading-[17px]">
               <strong>留言 </strong>
               • {commaFormat(video.statistics.commentCount)} 則
             </div>
             <div className="w-[16px]"><SocialMedia.UpDown className="w-full"/></div>
+          </div>
+          <div className="hidden md:block">
+            <div className="p-[12px] text-[14px] leading-[17px]">
+              <strong>{commaFormat(video.statistics.commentCount)} 則留言</strong>
+            </div>
+            {commentList.map((comment, index) => (
+              <CommentChild comment={comment} key={index}/>
+            ))}
           </div>
         </div>
         <div className={`fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3] ${showActionSheets ? "block" : "hidden"}`}>
