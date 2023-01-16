@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocation } from "react-router-dom";
 import { apiHelper } from '../utils/apis';
+import { countFormat }from '../utils/format.js'
 import SocialMedia from '../components/icons';
 import VideoCard from '../components/VideoCard';
 import VideoIframe from '../components/VideoIframe';
@@ -16,6 +17,24 @@ import 'dayjs/locale/zh-tw';
 
 dayjs.locale('zh-tw');
 dayjs.extend(relativeTime);
+
+const descriptionFormat = (str) => {
+  const regex = /(https|http):\/\/([\w.]+\/?)\S*(?=\s)/g;
+  const urlList = new Set(str.match(regex));
+  urlList.forEach(url => {
+    const regexUrl = new RegExp(`${url}`, 'g');
+    str = str.replace(regexUrl, `<a href="${url}" class="text-[#065fd4]">${url}</a>`);
+  });
+
+  const regex2 = /(?<!\[)#\S+/g; // 選擇 tag，排除色碼 [#ffffff]
+  const tagList = new Set(str.match(regex2));
+  tagList.forEach(tag => {
+    const regexTag = new RegExp(`${tag}`, 'g');
+    str = str.replace(regexTag, `<a href="/results?search_query=${encodeURIComponent(tag)}" class="text-[#065fd4]">${tag}</a>`);
+  });
+  str = str.replace(/(\r|\n|\r\n)/g, '<br/>');
+  return {__html: str};
+};
 
 const WatchPage = () => {
   const [video, setVideo] = useState({
@@ -56,16 +75,6 @@ const WatchPage = () => {
     return str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
-  function countFormat(str) {
-    if (str <= 4) {
-      str = str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    } else if (str <= 5) {
-      str = `${str.slice(0)}.${str.slice(1)}萬`;
-    } else {
-      str = `${str.slice(0, str.length - 4)}萬`;
-    };
-    return str;
-  };
 
   // VideoCard
   const [upNextList, setUpNextList] = useState([]);
@@ -164,6 +173,11 @@ const WatchPage = () => {
     fetchComments();
   }, []);
 
+  const [isDescriptionShow, setDescriptionShow] = useState(false);
+  const toggleDescription = () => {
+    setDescriptionShow(!isDescriptionShow);
+  }
+
   return (
     <>
       <div className="mx-auto bg-[#fff] md:max-w-[90%] md:flex">
@@ -207,34 +221,38 @@ const WatchPage = () => {
                   <span className="text-xs">626萬 位訂閱者</span>
                 </div>
               </div>
-              <button className="px-[16px] h-9 rounded-[18px]	bg-[#f2f2f2]">已訂閱</button>
+              <button className="ml-2 px-[16px] h-9 rounded-[18px] text-white  bg-black">訂閱</button>
             </div>
             <div>
               <div className="flex pb-[12px]">
                 <div className="flex mr-2 px-[16px] h-9 rounded-[18px] bg-[#f2f2f2]">
                   <button className="after:content-['|'] after:mx-2">
-                    <SocialMedia.Like className="inline-block"/><span>36</span>
+                    <SocialMedia.Like className="inline-block"/><span className="align-middle">{countFormat(video.statistics.likeCount)}</span>
                   </button> 
                   <button><SocialMedia.Dislike className="inline-block"/><span></span></button>
                 </div>
-                <button className="mr-2 px-[16px] h-9 rounded-[18px]	bg-[#f2f2f2]">
+                <button className="mr-2 px-[16px] h-9 rounded-[18px] bg-[#f2f2f2]">
                   <SocialMedia.Share className="inline-block" />
                   <span className="align-middle	">分享</span>
                 </button>
-                <button className="mr-2 px-[16px] h-9 rounded-[18px]	bg-[#f2f2f2]">
+                <button className="mr-2 px-[16px] h-9 rounded-[18px] bg-[#f2f2f2] lg:hidden">
                   <SocialMedia.Save className="inline-block"/>
                   <span className="align-middle	">儲存</span>
                 </button>
-                <button className="px-[16px] h-9 rounded-[18px]	bg-[#f2f2f2]">
+                <button className="px-[16px] h-9 rounded-[18px]	bg-[#f2f2f2] lg:hidden">
                   <SocialMedia.Report className="inline-block"/>
                   <span className="align-middle	">檢舉</span>
+                </button>
+                <button className="w-9 h-9 rounded-[18px]	bg-[#f2f2f2] hidden lg:block">
+                  <span className="inline-block h-6 w-6 align-middle"><SocialMedia.SpecBtn/></span>
                 </button>
               </div>
             </div>
           </div>
-          <div className="p-[12px] bg-[#f2f2f2] rounded-[12px] h-[104px] hidden md:flex md:flex-col md:justify-between md:items-start">
+          <div className={`p-[12px] bg-[#f2f2f2] rounded-[12px] hidden md:flex md:flex-col md:justify-between md:items-start ${!isDescriptionShow && "h-[104px]"}`}>
             <span>觀看次數：{countFormat(video.statistics.viewCount)}次 · {dayjs(video.snippet.publishedAt).fromNow()}</span>
-            <button>顯示完整資訊</button>
+            <div className={`whitespace-pre-wrap break-words ${!isDescriptionShow && "line-clamp-2"}`} dangerouslySetInnerHTML={descriptionFormat(video.snippet.description)}></div>
+            <button onClick={toggleDescription}>{isDescriptionShow ? '只顯示部分資訊' : '顯示完整資訊'}</button>
           </div>
           <div className="flex justify-between items-center p-[12px] border-b border-black/10 md:hidden" onClick={() => setShowActionSheets('comment')}>
             <div className="text-[14px] leading-[17px]">

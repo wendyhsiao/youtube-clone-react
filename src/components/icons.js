@@ -11,6 +11,7 @@ import { ReactComponent as More } from '../assets/icons/more.svg';
 import { ReactComponent as Search } from '../assets/icons/search.svg';
 import { ReactComponent as Close } from '../assets/icons/close.svg';
 import { ReactComponent as Comment } from '../assets/icons/comment.svg';
+import { ReactComponent as SpecBtn } from '../assets/icons/spec-btn.svg';
 
 export default {
   Logo,
@@ -25,6 +26,7 @@ export default {
   More,
   Search,
   Close,
-  Comment
+  Comment,
+  SpecBtn
 };
 
