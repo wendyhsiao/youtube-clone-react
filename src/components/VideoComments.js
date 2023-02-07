@@ -26,7 +26,7 @@ function VideoComments(props) {
     }
     
     document.getElementById('js-box').addEventListener('scroll', debounce(loadMore, 500));
-    return () => document.getElementById('js-box').removeEventListener('scroll', debounce(loadMore, 500));
+    return () => document.getElementById('js-box')?.removeEventListener('scroll', debounce(loadMore, 500));
   }, []);
   
 

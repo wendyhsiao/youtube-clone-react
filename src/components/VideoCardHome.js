@@ -14,7 +14,7 @@ function VideoCardHome({upNextVideo}) {
   return (
     <li className="shrink-0 box-border px-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
       <Link to={`/watch?v=${upNextVideo.id}`} className='w-full'>
-        <div className="video relative pb-[56.25%] overflow-hidden">
+        <div className="video relative pb-[56.25%] rounded-lg overflow-hidden">
           <img className="absolute top-2/4 -translate-y-2/4 w-full bg-[333]" src={upNextVideo.snippet.thumbnails.high.url}/>
         </div>
       </Link>

@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import Home from './pages/Home';
 import WatchPage from './pages/WatchPage';
+import ResultsPage from './pages/ResultsPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/watch" element={<WatchPage/>} />
+          <Route path="/results" element={<ResultsPage/>}  />
         </Routes>
       </HashRouter>
     </div>
