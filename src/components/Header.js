@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, createSearchParams } from "react-router-dom";
+import { useNavigate, createSearchParams, Link } from "react-router-dom";
 import SocialMedia from './icons';
 
 function Header() {
@@ -17,9 +17,9 @@ function Header() {
   
   return (
     <div className="sticky top-0 inset-x-0 flex justify-between items-center z-[3] bg-white">
-      <div className="w-[113px] h-[48px] px-[12px] py-[14px]">
+      <Link to={'/'} className="w-[113px] h-[48px] px-[12px] py-[14px]">
         <SocialMedia.Logo className="w-full h-full"/>
-      </div>
+      </Link>
       <div className="flex">
         <form className="flex items-center" onSubmit = {handleSearchSubmit} >
           <div className="flex px-[12px] h-[40px] border border-black/10 rounded-l-full border-r-0">

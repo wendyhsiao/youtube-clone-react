@@ -4,9 +4,9 @@ export const commaFormat = function (str) {
 };
 // 計數格式轉換
 export const countFormat = function (str) {
-  if (str <= 4) {
+  if (str.length <= 4) {
     str = str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  } else if (str <= 5) {
+  } else if (str.length <= 5) {
     str = `${str.slice(0)}.${str.slice(1)}萬`;
   } else {
     str = `${str.slice(0, str.length - 4)}萬`;

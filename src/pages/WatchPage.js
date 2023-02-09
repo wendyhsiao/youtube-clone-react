@@ -69,7 +69,7 @@ const WatchPage = () => {
       setVideo(data.items[0]);
     };
     fetchVideo();
-  }, []);
+  }, [location]);
 
   function commaFormat(str) {
     return str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -81,7 +81,7 @@ const WatchPage = () => {
   const [nextPageToken, setNextPageToken] = useState('');
   const nextPageTokenRef = useRef(nextPageToken);
 
-  const fetchUpNext = useCallback(() => {
+  const fetchUpNext = useCallback((more) => {
     const fetchingUpNext = async () => {
       const searchParams = {
         part: 'snippet',
@@ -99,20 +99,25 @@ const WatchPage = () => {
       const {data} = await apiHelper.get(`search?${searchURL.toString()}`);
       const items = data.items.filter(item => item.snippet);
       
-      setUpNextList(prevState => [
+      if (more) {
+        setUpNextList(prevState => [
           ...prevState,
           ...items
-      ]);
+        ]);
+      } else {
+        setUpNextList(items);
+      };
+      
 
       setNextPageToken(data.nextPageToken);
       nextPageTokenRef.current = data.nextPageToken;
     };
     fetchingUpNext();
-  }, [nextPageToken]);
+  }, [nextPageToken, id]);
 
   useEffect(() => {
     fetchUpNext();
-  }, []);
+  }, [location]);
 
   function debounce(fun, delay) {
     let timer = null;
@@ -132,7 +137,7 @@ const WatchPage = () => {
       if (
         (scrollTop + clientHeight) >= (scrollHeight - distance) &&
         nextPageTokenRef.current !== undefined
-      ) fetchUpNext();
+      ) fetchUpNext('more');
     }
     
     window.addEventListener('scroll', debounce(loadMore, 500));
@@ -143,7 +148,7 @@ const WatchPage = () => {
   const [commentList, setCommentList] = useState([]); 
   const [commentNextPageToken, setCommentNextPageToken] = useState('');
   const commentNextPageTokenRef = useRef(commentNextPageToken);
-  const fetchComments = useCallback(() => {
+  const fetchComments = useCallback((more) => {
     const fetchingComments = async () => {
       const searchParams = {
         part: 'snippet,replies',
@@ -159,10 +164,15 @@ const WatchPage = () => {
 
       const searchURL = new URLSearchParams(searchParams);
       const {data} = await apiHelper.get(`commentThreads?${searchURL.toString()}`);
-      setCommentList(prevState => [
-        ...prevState,
-        ...data.items
-      ]);
+      
+      if (more) {
+        setCommentList(prevState => [
+          ...prevState,
+          ...data.items
+        ]);
+      } else {
+        setCommentList(data.items);
+      };
       setCommentNextPageToken(data.nextPageToken);
       commentNextPageTokenRef.current = data.nextPageToken;
     };
@@ -171,7 +181,7 @@ const WatchPage = () => {
   
   useEffect(() => {
     fetchComments();
-  }, []);
+  }, [location]);
 
   const [isDescriptionShow, setDescriptionShow] = useState(false);
   const toggleDescription = () => {
