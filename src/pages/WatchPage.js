@@ -177,7 +177,26 @@ const WatchPage = () => {
       commentNextPageTokenRef.current = data.nextPageToken;
     };
     fetchingComments();
-  });
+  }, []);
+  
+  useEffect(() => {
+    function loadMore () {
+      const scrollHeight = document.querySelector(".js-comment").scrollHeight;
+      const offsetTop = document.querySelector(".js-comment").offsetTop;
+      const clientHeight  = document.documentElement.clientHeight; //瀏覽器高度
+      const scrollTop = document.documentElement.scrollTop;
+      const distance = 50;
+
+      if (
+        (scrollTop + clientHeight) >= (scrollHeight + offsetTop - distance) &&
+        commentNextPageTokenRef.current !== undefined
+      ) fetchComments('more');
+    }
+    const debounceFunc = debounce(loadMore, 500);
+
+    window.addEventListener('scroll', debounceFunc );
+    return () => window.removeEventListener('scroll', debounceFunc );
+  }, []);
   
   useEffect(() => {
     fetchComments();
@@ -271,13 +290,16 @@ const WatchPage = () => {
             </div>
             <div className="w-[16px]"><SocialMedia.UpDown className="w-full"/></div>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden md:block js-comment">
             <div className="p-[12px] text-[14px] leading-[17px]">
               <strong>{commaFormat(video.statistics.commentCount)} 則留言</strong>
             </div>
-            {commentList.map((comment, index) => (
-              <CommentChild comment={comment} key={index}/>
-            ))}
+            <ul>
+              {commentList.map((comment, index) => (
+                <CommentChild comment={comment} key={index}/>
+              ))}
+            </ul>
+            <div className="my-[12px] mx-auto w-8 h-8 rounded-full border-2 border-solid border-[#eee] border-t-[#666] animate-spin"></div>
           </div>
         </div>
         <div className={`fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3] ${showActionSheets ? "block" : "hidden"}`}>
