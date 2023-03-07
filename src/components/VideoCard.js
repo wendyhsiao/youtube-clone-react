@@ -9,11 +9,11 @@ import 'dayjs/locale/zh-tw';
 dayjs.locale('zh-tw');
 dayjs.extend(relativeTime);
 
-function VideoCard({upNextVideo, page}) {
+function VideoCard({upNextVideo, page, setCommentNextPageToken}) {
   console.log('----- VideoCard -----')
   return (
     <li className="list-none">
-      <Link to={`/watch?v=${upNextVideo.id.videoId}`} className='md:flex md:mt-2'>
+      <Link to={`/watch?v=${upNextVideo.id.videoId}`} className='md:flex md:mt-2' onClick={() => setCommentNextPageToken('')}>
         <div className={`w-full md:w-[45%] md:max-w-[360px] md:flex-shrink-0 ${page ? "md:mr-4" : "md:mr-2"}`}>
           <div className="video relative pb-[56.25%] rounded-lg overflow-hidden">
             <img className="absolute top-2/4 -translate-y-2/4 w-full bg-[333]" src={upNextVideo.snippet.thumbnails.high.url}/>

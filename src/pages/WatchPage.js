@@ -147,9 +147,11 @@ const WatchPage = () => {
   // comments
   const [commentList, setCommentList] = useState([]); 
   const [commentNextPageToken, setCommentNextPageToken] = useState('');
-  const commentNextPageTokenRef = useRef(commentNextPageToken);
+  const [isCommentLoad, setIsCommentLoad] = useState(false);
+
   const fetchComments = useCallback((more) => {
     const fetchingComments = async () => {
+      setIsCommentLoad(true);
       const searchParams = {
         part: 'snippet,replies',
         videoId: id,
@@ -157,9 +159,8 @@ const WatchPage = () => {
         // pageToken,
         key: process.env.REACT_APP_YT_API_KEY,
       };
-    
-      if (commentNextPageTokenRef.current) {
-        searchParams['pageToken'] = commentNextPageTokenRef.current;
+      if (commentNextPageToken !== '') {
+        searchParams['pageToken'] = commentNextPageToken;
       };
 
       const searchURL = new URLSearchParams(searchParams);
@@ -173,11 +174,12 @@ const WatchPage = () => {
       } else {
         setCommentList(data.items);
       };
-      setCommentNextPageToken(data.nextPageToken);
-      commentNextPageTokenRef.current = data.nextPageToken;
+      setCommentNextPageToken(data.nextPageToken || '');
+      
+      setIsCommentLoad(false);
     };
     fetchingComments();
-  }, []);
+  }, [location, commentNextPageToken]);
   
   useEffect(() => {
     function loadMore () {
@@ -189,14 +191,14 @@ const WatchPage = () => {
 
       if (
         (scrollTop + clientHeight) >= (scrollHeight + offsetTop - distance) &&
-        commentNextPageTokenRef.current !== undefined
+        commentNextPageToken !== undefined
       ) fetchComments('more');
     }
     const debounceFunc = debounce(loadMore, 500);
 
     window.addEventListener('scroll', debounceFunc );
     return () => window.removeEventListener('scroll', debounceFunc );
-  }, []);
+  }, [location, commentNextPageToken]);
   
   useEffect(() => {
     fetchComments();
@@ -312,7 +314,7 @@ const WatchPage = () => {
         <div className="px-[12px] md:w-2/5 md:max-w-[400px]">
           <h3 className="py-[12px]">即將播放</h3>
           {upNextList.map((upNextVideo, index) => (
-            <VideoCard upNextVideo={upNextVideo} key={index}/> 
+            <VideoCard upNextVideo={upNextVideo} key={index} setCommentNextPageToken={setCommentNextPageToken}/> 
             //key={upNextVideo.id.videoId}
           ))}
         </div>
