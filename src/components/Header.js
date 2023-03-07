@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, createSearchParams, Link } from "react-router-dom";
 import SocialMedia from './icons';
 
-function Header() {
+function Header({searchInput, onSearchInput}) {
   const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState("");
   
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +22,7 @@ function Header() {
       <div className="flex">
         <form className="flex items-center" onSubmit = {handleSearchSubmit} >
           <div className="flex px-[12px] h-[40px] border border-black/10 rounded-l-full border-r-0">
-            <input type="search" value={searchInput} name="search_query" className="focus-visible:outline-0" placeholder="搜尋" onChange={(e)=>{setSearchInput(e.target.value)}}/>
+            <input type="search" value={searchInput} name="search_query" className="focus-visible:outline-0" placeholder="搜尋" onChange={(e)=>{onSearchInput(e.target.value)}}/>
           </div>
           <button type="submit" className="h-[40px] w-[64px] border border-black/10 rounded-r-full bg-[#f8f8f8]"><SocialMedia.Search className="mx-auto"/></button>
         </form>

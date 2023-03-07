@@ -3,15 +3,21 @@ import { useLocation } from "react-router-dom";
 import { apiHelper } from '../utils/apis';
 import VideoCard from '../components/VideoCard';
 
-const ResultsPage = () => {
+const ResultsPage = ({onSearchInput}) => {
   const [videoList, setVideoList] = useState([]);
   const [resultNextPageToken, setResultNextPageToken] = useState('');
   const resultNextPageTokenRef = useRef(resultNextPageToken);
+  const [isVideoListLoad, setIsVideoListLoad] = useState(false);
   let location = useLocation();
   let searchQuery = new URLSearchParams(location.search).get('search_query');
 
+  useEffect(() => {
+    setResultNextPageToken('');
+  }, [location]);
+
   const fetchSearchResult = useCallback((more) => {
     const searchVideos = async () => {
+      setIsVideoListLoad(true);
       const searchParams = {
         part: 'snippet',
         q: searchQuery,
@@ -36,8 +42,10 @@ const ResultsPage = () => {
       } else {
         setVideoList(data.items);
       };
+      onSearchInput(searchQuery);
       setResultNextPageToken(data.nextPageToken);
       resultNextPageTokenRef.current = data.nextPageToken;
+      setIsVideoListLoad(false);
     };
     searchVideos();
   });
@@ -81,7 +89,7 @@ const ResultsPage = () => {
           <VideoCard upNextVideo={video} key={index} page="resultPage"/> 
         ))}
       </ul>
-      <div className="my-[12px] mx-auto w-8 h-8 rounded-full border-2 border-solid border-[#eee] border-t-[#666] animate-spin"></div>
+      <div className={`my-[12px] mx-auto w-8 h-8 rounded-full border-2 border-solid border-[#eee] border-t-[#666] animate-spin ${!isVideoListLoad && 'opacity-0'}`}></div>
     </div>
   );
 };
