@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+# youtube-clone-react 專案
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+使用 React 前端框架複刻 YouTube 畫面及部分功能，使用 YouTube Data API 串接。
+- Home 頁面
+- Results 搜尋結果頁面
+- Watch 影片頁面
 
-## Available Scripts
+專案目標：
+1. RWD 畫面呈現
+2. 影片搜尋功能
+3. 搜尋結果頁面影片上拉載入更多
+4. 影片頁面留言上拉載入更多
 
-In the project directory, you can run:
 
-### `npm start`
+## 安裝
+請依照以下步驟安裝此專案，使用前面請先申請 YouTube API KEY。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 取得專案
+```
+git clone https://github.com/wendyhsiao/youtube-clone-react.git
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 移動至專案
 
-### `npm test`
+```
+cd youtube-clone-react
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 安裝專案
+```
+npm install
+```
 
-### `npm run build`
+### 環境變數設定
+新增.env 檔案，加入 `REACT_APP_YT_API_KEY` 環境變數
+```
+REACT_APP_YT_API_KEY=XXXXX(輸入你的YT_API_KEY)
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 運行專案
+```
+npm run start
+```
+### 開啟專案
+在瀏覽器網址列輸入以下即可看到畫面
+```
+http://localhost:3000/#/
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## 問題排除
+此專案使用 React 18，Node 請使用 14+ 以上的版本
+### 查看目前使用中版本
+```
+node -v
+```
+### 查看現有安裝版本
+```
+nvm ls
+```
+### 切換版本
+```
+nvm use v14.xx.x
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 專案技術
+|  技術         |  版本   |
+|  -           |-        |
+| Node.js      | v16.15.0| 
+| React        |  v18.1.0| 
+| React Router | v6.3.0  | 
+| Tailwind CSS | v3.0.24 | 
