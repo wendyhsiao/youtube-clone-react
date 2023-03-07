@@ -7,7 +7,7 @@ export const countFormat = function (str) {
   if (str.length <= 4) {
     str = str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   } else if (str.length <= 5) {
-    str = `${str.slice(0)}.${str.slice(1)}萬`;
+    str = `${str.slice(0, 1)}.${str.slice(1, 2)}萬`;
   } else {
     str = `${str.slice(0, str.length - 4)}萬`;
   };

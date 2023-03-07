@@ -43,7 +43,8 @@ const WatchPage = () => {
       publishedAt: '',
       channelTitle: '',
       title: '',
-      description: ''
+      description: '',
+      thumbnails: {},
     },
     statistics: {
       viewCount: '0',
@@ -216,8 +217,8 @@ const WatchPage = () => {
           <div className="fixed top-[48px] inset-x-0 z-[2] md:static">
             <VideoIframe id={video.id} />
           </div>
-          <div>
-            <ul className="flex px-[12px] text-xs">
+          <div className="pt-[12px]">
+            {/* <ul className="flex px-[12px] text-xs">
               <li className="px-[4px] pt-[12px] pb-[4px] text-[#065fd4]">
                 <a>#米津玄師</a>
               </li>
@@ -227,7 +228,7 @@ const WatchPage = () => {
               <li className="px-[4px] pt-[12px] pb-[4px] text-[#065fd4]">
                 <a>#シンウルトラマン</a>
               </li>
-            </ul>
+            </ul> */}
             <div className="px-[12px] pb-[9px] flex justify-between md:hidden" onClick={() => setShowActionSheets('description')}>
               <div className="text-xs">
                 <h2 className="pb-[4px]">{video.snippet.title}</h2>
@@ -245,7 +246,7 @@ const WatchPage = () => {
             <div className="flex justify-between mb-[9px]">
               <div className="flex">
                 <div className="w-[34px] h-[34px] mr-[12px] rounded-full overflow-hidden">
-                  <img alt="" src="https://yt3.ggpht.com/rGwF3epSxFQZcTNfViuBgXeH7opUXf72ZBuAn50W-40oxe1ebvZ-2X3J5SeO0oqZq7vqVOrzaQ=s88-c-k-c0x00ffffff-no-nd-rj"/>
+                  <img className="h-full object-cover" src={video.snippet.thumbnails?.default?.url} />
                 </div>
                 <div>
                   <h3>{video.snippet.channelTitle}</h3>
@@ -255,7 +256,7 @@ const WatchPage = () => {
               <button className="ml-2 px-[16px] h-9 rounded-[18px] text-white  bg-black">訂閱</button>
             </div>
             <div>
-              <div className="flex pb-[12px]">
+              <div className="flex pb-[12px] overflow-x-scroll whitespace-nowrap no-scrollbar">
                 <div className="flex mr-2 px-[16px] h-9 rounded-[18px] bg-[#f2f2f2]">
                   <button className="after:content-['|'] after:mx-2">
                     <SocialMedia.Like className="inline-block"/><span className="align-middle">{countFormat(video.statistics.likeCount)}</span>
@@ -301,7 +302,7 @@ const WatchPage = () => {
                 <CommentChild comment={comment} key={index}/>
               ))}
             </ul>
-            <div className="my-[12px] mx-auto w-8 h-8 rounded-full border-2 border-solid border-[#eee] border-t-[#666] animate-spin"></div>
+            <div className={`my-[12px] mx-auto w-8 h-8 rounded-full border-2 border-solid border-[#eee] border-t-[#666] animate-spin ${!isCommentLoad && 'opacity-0'}`}></div>
           </div>
         </div>
         <div className={`fixed top-[calc(56.25vw+48px)] bottom-0 inset-x-0 z-[3] ${showActionSheets ? "block" : "hidden"}`}>
