@@ -24,21 +24,21 @@ function CommentChild({comment}) {
             <div>{dayjs(publishedAt).fromNow()}</div>
           </div>
           <p className="my-[4px]" dangerouslySetInnerHTML={{__html:textDisplay}}></p>
-          <div className="flex">
-            <div className="flex justify-center items-center w-[40px] h-[40px]">
+          <div className="flex items-center">
+            <button className="flex justify-center items-center w-[40px] h-[40px]">
               <SocialMedia.Like className="w-[16px] h-[16px]"/>
-              {likeCount > 0 && <span className="ml-[4px]">{likeCount}</span>}
-            </div>
-            <div className="flex justify-center items-center w-[40px] h-[40px]">
+            </button>
+            {likeCount > 0 && <span className="mr-[4px]">{likeCount}</span>}
+            <button className="flex justify-center items-center w-[40px] h-[40px]">
               <SocialMedia.Dislike className="w-[16px] h-[16px]"/>
-            </div>
-            <div className="flex justify-center items-center w-[40px] h-[40px]">
+            </button>
+            <button className="flex justify-center items-center w-[40px] h-[40px]">
               <SocialMedia.Comment className="w-[16px] h-[16px]"/>
-              {comment.snippet.totalReplyCount > 0 && <span className="ml-[4px]">{comment.snippet.totalReplyCount}</span>}
-            </div>
-            <div className="flex justify-center items-center w-[40px] h-[40px] ml-auto">
+            </button>
+            {comment.snippet.totalReplyCount > 0 && <span className="mr-[4px]">{comment.snippet.totalReplyCount}</span>}
+            <button className="flex justify-center items-center w-[40px] h-[40px] ml-auto">
               <SocialMedia.More />
-            </div>
+            </button>
           </div>
         </div>
       </div>
