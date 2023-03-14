@@ -1,5 +1,7 @@
 # youtube-clone-react 專案
 
+<img src="/assets/home-pc.png" style="box-shadow:0 4px 6px -1px rgba(0,0,0,.1)">
+
 使用 React 前端框架複刻 YouTube 畫面及部分功能，使用 YouTube Data API 串接。
 - Home 頁面
 - Results 搜尋結果頁面
@@ -13,7 +15,7 @@
 
 
 ## 安裝
-請依照以下步驟安裝此專案，使用前面請先申請 YouTube API KEY。
+請依照以下步驟安裝此專案，使用前面請先申請 [YouTube API KEY](https://developers.google.com/youtube/v3/getting-started)。
 
 ### 取得專案
 ```
@@ -71,3 +73,13 @@ nvm use v14.xx.x
 | React        |  v18.1.0| 
 | React Router | v6.3.0  | 
 | Tailwind CSS | v3.0.24 | 
+
+## Demo 畫面
+### Results 搜尋結果頁面
+<img src="/assets/result-pc.png" style="box-shadow:0 4px 6px -1px rgba(0,0,0,.1)" height="300"> <img src="/assets/result-mobile.png" style="box-shadow:0 4px 6px -1px rgba(0,0,0,.1)" height="300">
+
+### Watch 影片頁面
+<img src="/assets/watch-pc.png" style="box-shadow:0 4px 6px -1px rgba(0,0,0,.1)" height="300"> <img src="/assets/watch-mobile.png" style="box-shadow:0 4px 6px -1px rgba(0,0,0,.1)" height="300">
+
+#### mobile 影片介紹 ＆ 留言樣式
+<img src="/assets/watch-mobile1.png" style="box-shadow:0 4px 6px -1px rgba(0,0,0,.1)" height="500">  <img src="/assets/watch-mobile2.png" style="box-shadow:0 4px 6px -1px rgba(0,0,0,.1)" height="500">
